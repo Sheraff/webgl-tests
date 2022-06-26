@@ -73,6 +73,15 @@ gl.drawArrays(
 	3 // draw n vertices
 )
 
+// void function loop() {
+// 	requestAnimationFrame(() => {
+// 		const colorAttributeLocation = gl.getAttribLocation(program, 'color')
+// 		gl.vertexAttrib3fv(colorAttributeLocation, [0.1, 0.7, 0.2])
+// 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+// 		gl.drawArrays(gl.TRIANGLES, 0, 3)
+// 		loop()
+// 	})
+// }()
 
 
 
