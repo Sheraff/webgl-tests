@@ -3,19 +3,19 @@ export {}
 const canvas = document.querySelector('canvas')
 if(!canvas)
 	throw new Error('No canvas found')
-canvas.width = window.innerWidth
-canvas.height = window.innerHeight
+canvas.width = window.innerWidth * devicePixelRatio
+canvas.height = window.innerHeight * devicePixelRatio
 
 const gl = canvas.getContext('webgl2', {
-	failIfMajorPerformanceCaveat: false,
-	antialias: true,
+	// failIfMajorPerformanceCaveat: false,
+	// antialias: true,
 	powerPreference: 'high-performance',
 })
 if(!gl)
 	throw new Error('No WebGL context found')
 
-gl.clearColor(0.1, 0.05, 0.1, 1)
-gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+// gl.clearColor(0.1, 0.05, 0.1, 1)
+// gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
 const program = gl.createProgram()
 if(!program)
@@ -67,21 +67,25 @@ gl.vertexAttribPointer(
 gl.enableVertexAttribArray(colorAttributeLocation)
 
 gl.useProgram(program)
+
+const timeUniformLocation = gl.getUniformLocation(program, 'time')
+gl.uniform1f(timeUniformLocation, 0)
+
+
 gl.drawArrays(
 	gl.TRIANGLES, // type of vertices
 	0, // skip first n vertices
 	3 // draw n vertices
 )
 
-// void function loop() {
-// 	requestAnimationFrame(() => {
-// 		const colorAttributeLocation = gl.getAttribLocation(program, 'color')
-// 		gl.vertexAttrib3fv(colorAttributeLocation, [0.1, 0.7, 0.2])
-// 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-// 		gl.drawArrays(gl.TRIANGLES, 0, 3)
-// 		loop()
-// 	})
-// }()
+void function loop() {
+	requestAnimationFrame((time) => {
+		gl.uniform1f(timeUniformLocation, time / 1000)
+		// gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+		gl.drawArrays(gl.TRIANGLES, 0, 3)
+		loop()
+	})
+}()
 
 
 
