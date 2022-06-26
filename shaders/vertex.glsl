@@ -4,6 +4,7 @@ precision mediump float;
 
 attribute vec2 position;
 attribute vec3 color;
+attribute float index;
 varying vec3 fragColor;
 
 uniform float time;
@@ -13,9 +14,10 @@ float normalizeTrig(float x) {
 }
 
 void main() {
-	float r = color[0] * normalizeTrig(sin(time));
-	float g = color[1] * normalizeTrig(sin(time + M_PI / 1.5));
-	float b = color[2] * normalizeTrig(sin(time + M_PI / 0.75));
+	float offset = index * M_PI / 4.0;
+	float r = color[0] * normalizeTrig(sin(time + offset));
+	float g = color[1] * normalizeTrig(sin(time - offset + M_PI * 1.0 / 3.0));
+	float b = color[2] * normalizeTrig(sin(time + offset + M_PI * 2.0 / 3.0));
 	fragColor = vec3(r, g, b);
 	gl_Position = vec4(position, 0.0, 1.0);
 }
